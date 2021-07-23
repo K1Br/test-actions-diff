@@ -17,7 +17,7 @@ jobs:
         # Set outputs using the command.
         run: |
           echo "::set-output name=olddate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 2 | head -n 1)"
-  - name: Set up Pyton 3.8
+      - name: Set up Pyton 3.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
