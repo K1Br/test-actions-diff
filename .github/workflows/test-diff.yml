@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: changed-files-old
-        id: changes
+        id: changes-old
         # Set outputs using the command.
         run: echo "GITHUB_OLD_DATE=$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1)" >> $GITHUB_ENV
       - name: changed-files-new
