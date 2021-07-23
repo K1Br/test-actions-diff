@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       newdate: ${{steps.newchanges.outputs.newdate }}
+    steps:
       - name: newdate
         id: newchanges
         run: echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)"
