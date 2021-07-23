@@ -6,7 +6,7 @@ jobs:
     # Map a step output to a job output
     outputs:
       olddate: ${{ steps.changes.outputs.olddate}}
-      newdate: ${{ steps.changes.outputs.newdate }}
+      newdate: ${{ steps.newchanges.outputs.newdate }}
     steps:
       # Make sure we have some code to diff.
       - name: Checkout repository
@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "::set-output name=olddate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1)"
       - name: changed-files
-        id: changes
+        id: newchanges
         # Set outputs using the command.
         run: |
           echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)"
@@ -34,4 +34,5 @@ jobs:
       - name: test dates
         env:
           GITHUB_OLD_DATE: ${{steps.changes.outputs.olddate}}
+          GITHUB_NEW_DATE: ${{steps.newchanges.outputs.olddate}}
         run: python ./.github/workflows/scripts/compare_review_dates.py
