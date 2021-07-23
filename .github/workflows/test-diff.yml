@@ -38,6 +38,6 @@ jobs:
       - name: test dates
         env:
           GITHUB_OLD_DATE: ${{needs.changedfiles.outputs.oldate}}
-          GITHUB_NEW_DATE: ${{steps.newchanges.outputs.newdate}}
+          GITHUB_NEW_DATE: ${{needs.newchanges.outputs.newdate}}
         run: |
           python ./.github/workflows/scripts/compare_review_dates.py
