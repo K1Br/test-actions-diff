@@ -13,16 +13,16 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: changed-files
-        id: changes
-        # Set outputs using the command.
-        run: |
-          echo "::set-output name=olddate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1)"
-      - name: changed-files
+      - name: changed-files2
         id: newchanges
         # Set outputs using the command.
         run: |
           echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)"
+      - name: changed-files1
+        id: changes
+        # Set outputs using the command.
+        run: |
+          echo "::set-output name=olddate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1)"
       - name: Set up Pyton 3.8
         uses: actions/setup-python@v2
         with:
