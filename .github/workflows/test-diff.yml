@@ -19,8 +19,8 @@ jobs:
           echo "::set-output name=olddate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 2 | head -n 1)"
   datediff:
     runs-on: ubuntu-latest
-      outputs:
-        newdate: ${{steps.changes.outputs.newdate }}
+    outputs:
+      newdate: ${{steps.changes.outputs.newdate }}
       - name: newdate
         id: newchanges
         run: echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)"
