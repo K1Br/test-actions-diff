@@ -1,22 +1,6 @@
 name: fill-diff
 on: [pull_request]
 jobs:
-  changedfiles:
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      newdate: ${{steps.newchanges.outputs.newdate }}
-    steps:
-      # Make sure we have some code to diff.
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: new-changed-files
-        id: newchanges
-        # Set outputs using the command.
-        run: |
-          echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)"
   oldfiles:
     runs-on: ubuntu-latest
     # Map a step output to a job output
@@ -32,7 +16,8 @@ jobs:
         id: changes
         # Set outputs using the command.
         run: |
-          echo "GITHUB_OLD_DATE=$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1)" >> $GITHUB_ENV
+          git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1)" >> gitdiff_dates.csv
+          echo $(head -n 1 gitdiff_dates.csv)
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
