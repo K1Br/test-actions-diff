@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: changes
+      - name: changed-files
         id: changes
         # Set outputs using the command.
         run: |
@@ -29,6 +29,6 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: test dates
         env:
-          GITHUB_OLD_DATE: ${{needs.changes.outputs.olddate}}
-          GITHUB_NEW_DATE: ${{needs.changes.outputs.newdate}}
+          GITHUB_OLD_DATE: ${{steps.changes.outputs.olddate}}
+          GITHUB_NEW_DATE: ${{steps.changes.outputs.newdate}}
         run: python ./.github/workflows/scripts/compare_review_dates.py
