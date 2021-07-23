@@ -19,6 +19,7 @@ jobs:
           git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1 >> gitdiff_dates.csv
           echo $(head -n 1 gitdiff_dates.csv)
           echo "GITHUB_OLD_DATE=$(echo $(head -n 1 gitdiff_dates.csv))" >> $GITHUB_ENV
+          echo "GITHUB_NEW_DATE=$(echo $(tail -n 1 gitdiff_dates.csv))" >> $GITHUB_ENV
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -30,5 +31,5 @@ jobs:
       - name: test dates
         env:
           GITHUB_OLD_DATE: ${{ env.GITHUB_OLD_DATE }}
-          GITHUB_NEW_DATE: ${{needs.changedfiles.outputs.newdate}}
+          GITHUB_NEW_DATE: ${{ env.GITHUB_NEW_DATE }}
         run: python ./.github/workflows/scripts/compare_review_dates.py
