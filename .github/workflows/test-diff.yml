@@ -18,6 +18,7 @@ jobs:
         # Set outputs using the command.
         run: |
           echo "GITHUB_OLD_DATE=$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1)" >> $GITHUB_ENV
+          echo "GITHUB_NEW_DATE=$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)" >> $GITHUB_ENV
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
