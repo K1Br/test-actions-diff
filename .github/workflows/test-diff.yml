@@ -16,7 +16,7 @@ jobs:
         id: newchanges
         # Set outputs using the command.
         run: |
-          echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\ -f2 )"
+          echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d -f2 )"
       - name: Set up Pyton 3.8
         uses: actions/setup-python@v2
         with:
