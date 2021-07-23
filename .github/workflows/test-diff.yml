@@ -5,19 +5,20 @@ jobs:
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      olddate: ${{steps.changes.outputs.olddate }}
+      olddate: ${{ steps.changes.outputs.olddate}}
+      newdate: ${{ steps.changes.outputs.newdate }}
     steps:
       # Make sure we have some code to diff.
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: changed-files2
+      - name: changed-files
         id: changes
         # Set outputs using the command.
         run: |
-          echo "::set-output name=olddate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 2 )"
-      - name: Set up Pyton 3.8
+          echo "GITHUB_OLD_DATE=$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1)" >> $GITHUB_ENV
+      - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
@@ -27,7 +28,5 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: test dates
         env:
-          GITHUB_OLD_DATE: ${{needs.changedfiles.outputs.oldate}}
-          GITHUB_NEW_DATE: ${{steps.newchanges.outputs.newdate}}
-        run: |
-          python ./.github/workflows/scripts/compare_review_dates.py
+          GITHUB_OLD_DATE: ${{ env.GITHUB_OLD_DATE }}
+        run: python ./.github/workflows/scripts/compare_review_dates.py
