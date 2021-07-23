@@ -6,7 +6,7 @@ jobs:
     # Map a step output to a job output
     outputs:
       olddate: ${{steps.changes.outputs.olddate }}
-      olddate: ${{steps.changes.outputs.newdate }}
+      newdate: ${{steps.changes.outputs.newdate }}
     steps:
       # Make sure we have some code to diff.
       - name: Checkout repository
