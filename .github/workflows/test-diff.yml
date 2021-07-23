@@ -28,6 +28,6 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: test dates
         env:
-          GITHUB_OLD_DATE: $(head -n 1 gitdiff_dates.csv)
+          GITHUB_OLD_DATE: echo $(head -n 1 gitdiff_dates.csv)
           GITHUB_NEW_DATE: ${{needs.changedfiles.outputs.newdate}}
         run: python ./.github/workflows/scripts/compare_review_dates.py
