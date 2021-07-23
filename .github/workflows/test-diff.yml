@@ -5,8 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      olddate: ${{ steps.changes.outputs.olddate}}
-      newdate: ${{ steps.newchanges.outputs.newdate }}
+      olddate: ${{steps.changes.outputs.olddate}}
+      newdate: ${{steps.newchanges.outputs.newdate }}
     steps:
       # Make sure we have some code to diff.
       - name: Checkout repository
@@ -34,5 +34,5 @@ jobs:
       - name: test dates
         env:
           GITHUB_OLD_DATE: ${{steps.changes.outputs.olddate}}
-          GITHUB_NEW_DATE: ${{steps.newchanges.outputs.olddate}}
+          GITHUB_NEW_DATE: ${{steps.newchanges.outputs.newdate}}
         run: python ./.github/workflows/scripts/compare_review_dates.py
