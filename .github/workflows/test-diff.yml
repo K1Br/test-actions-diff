@@ -28,6 +28,4 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: test dates
-        env:
-          GITHUB_OLD_DATE: ${{ env.GITHUB_OLD_DATE }}
         run: python ./.github/workflows/scripts/compare_review_dates.py
