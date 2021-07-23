@@ -6,7 +6,6 @@ jobs:
     # Map a step output to a job output
     outputs:
       olddate: ${{steps.changes.outputs.olddate }}
-      newdate: ${{steps.changes.outputs.newdate }}
     steps:
       # Make sure we have some code to diff.
       - name: Checkout repository
@@ -17,8 +16,14 @@ jobs:
         id: changes
         # Set outputs using the command.
         run: |
-          echo "::set-output name=olddate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 2 | head -n 1)"
-          echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)"
+        echo "::set-output name=olddate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 2 | head -n 1)"
+  datediff:
+    runs-on: ubuntu-latest
+    outputs:
+      newdate: ${{steps.changes.outputs.newdate }}
+      - name: newdate
+        id: newchanges
+        run: echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)"
       - name: Set up Pyton 3.8
         uses: actions/setup-python@v2
         with:
@@ -29,6 +34,6 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: test dates
         env:
-          GITHUB_OLD_DATE: ${{steps.changes.outputs.oldate}}
-          GITHUB_NEW_DATE: ${{steps.changes.outputs.newdate}}
+          GITHUB_OLD_DATE: ${{needs.changedfiles.outputs.oldate}}
+          GITHUB_NEW_DATE: ${{steps.newchanges.outputs.newdate}}
         run: python ./.github/workflows/scripts/compare_review_dates.py
