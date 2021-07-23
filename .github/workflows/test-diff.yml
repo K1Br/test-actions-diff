@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
+      olddate: ${{steps.newchanges.outputs.newdate }}
       newdate: ${{steps.newchanges.outputs.newdate }}
     steps:
       # Make sure we have some code to diff.
