@@ -22,6 +22,8 @@ jobs:
     outputs:
       newdate: ${{steps.newchanges.outputs.newdate }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: newdate
         id: newchanges
         run: echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)"
@@ -37,4 +39,5 @@ jobs:
         env:
           GITHUB_OLD_DATE: ${{needs.changedfiles.outputs.oldate}}
           GITHUB_NEW_DATE: ${{steps.newchanges.outputs.newdate}}
-        run: python ./.github/workflows/scripts/compare_review_dates.py
+        run: |
+          python ./.github/workflows/scripts/compare_review_dates.py
