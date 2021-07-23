@@ -18,8 +18,6 @@ jobs:
         # Set outputs using the command.
         run: |
           echo "::set-output name=olddate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2| head -n 1)"
-          echo "::set-output name=newdate::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n 1)"
-      - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
@@ -30,5 +28,4 @@ jobs:
       - name: test dates
         env:
           GITHUB_OLD_DATE: ${{steps.changes.outputs.olddate}}
-          GITHUB_NEW_DATE: ${{steps.changes.outputs.newdate}}
         run: python ./.github/workflows/scripts/compare_review_dates.py
