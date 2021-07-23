@@ -21,13 +21,15 @@ jobs:
       - name: test-changed-files
         run: |
           echo "${{ env.GITHUB_OLD_DATE }}"
-      - name: test dates
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        - name: test dates
         env:
           GITHUB_OLD_DATE: ${{ env.GITHUB_OLD_DATE }}
-        run: |
-          python3 -c \
-          'from datetime import datetime as dt;'\
-          'import os;'\
-          'print(os.getenv('GITHUB_OLD_DATE'));'\
-          '#date_diff = dt.strptime(os.environ['GITHUB_NEW_DATE'], "%Y-%m-%d") - dt.strptime(os.environ['GITHUB_OLD_DATE'], "%Y-%m-%d")'
-          '#if data_diff.days > 92: raise ValueError("date diff to high");'\
+        run: python ./.github/workflows/scripts/compare_review_dates.py
