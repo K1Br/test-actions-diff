@@ -18,7 +18,7 @@ jobs:
           c1: ${{ github.event.pull_request.base.sha }}
           c2: ${{ github.sha }}
         run: |
-          git diff --diff-filter=ACMRT ${{c1}} ${{c2}} -U0 > git_diff.csv
+          git diff --diff-filter=ACMRT ${{env.c1}} ${{env.c2}} -U0 > git_diff.csv
           cat git_diff.csv | grep 'review_date:'| cut -d\  -f2 > date_diff.csv
           echo "GITHUB_OLD_DATE=$(echo $(head -1 date_diff.csv))" >> $GITHUB_ENV
           echo "GITHUB_NEW_DATE=$(echo $(tail -1 date_diff.csv))" >> $GITHUB_ENV
