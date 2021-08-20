@@ -14,10 +14,10 @@ jobs:
         id: changes
         # Set outputs using the command.
         run: |
-          git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | grep 'review_date:' | cut -d\  -f2 | tail -n +2 >> gitdiff_dates.csv
-          cat gitdiff_dates.csv
-          echo "GITHUB_OLD_DATE=$(echo $(tail -1 gitdiff_dates.csv))" >> $GITHUB_ENV
-          echo "GITHUB_NEW_DATE=$(echo $(head -1 gitdiff_dates.csv))" >> $GITHUB_ENV
+          git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0 | \
+            grep 'review_date:' | cut -d\  -f2 | tail -n +2 >> date_diff.csv
+          echo "GITHUB_OLD_DATE=$(echo $(tail -1 date_diff.csv))" >> $GITHUB_ENV
+          echo "GITHUB_NEW_DATE=$(echo $(head -1 date_diff.csv))" >> $GITHUB_ENV
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
