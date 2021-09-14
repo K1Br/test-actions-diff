@@ -13,5 +13,9 @@ jobs:
       - name: changed-files
         id: changes
         # Set outputs using the command.
+        env:
+          # testing multiple lines
+          c1: ${{ github.event.pull_request.base.sha }}
+          c2: ${{ github.sha }}
         run: |
           git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -U0
