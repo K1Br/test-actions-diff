@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 import re
 
-#Read as text blob
+#Read as text blob 
 txt = Path('gitdiff_dates.csv').read_text()
 
 #Split the files by where it begins to report a new file
