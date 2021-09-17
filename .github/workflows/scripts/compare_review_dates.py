@@ -1,6 +1,7 @@
 from datetime import datetime as dt
 from pathlib import Path
 import pandas as pd
+import re
 
 #Read as text blob
 txt = Path('gitdiff_dates.csv').read_text()
