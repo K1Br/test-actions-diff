@@ -13,7 +13,7 @@ updated_files = txt.split('diff --git')
 # Retain only updated files that have review dates altered and extract the dates
 reviewed_files = [i for i in updated_files if '-review_date' in i]
 match = re.findall(r'\d{4}-\d{2}-\d{2}', reviewed_files[0])
-print('abc')
+print('abc'
 raise ValueError("date diff to high")
 #compare if the review dates are within our specified bounds
 for a, b in itertools.combinations(match, 2):
