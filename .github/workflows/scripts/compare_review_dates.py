@@ -14,7 +14,7 @@ updated_files = txt.split('diff --git')
 reviewed_files = [i for i in updated_files if '-review_date' in i]
 match = re.findall(r'\d{4}-\d{2}-\d{2}', reviewed_files[0])
 print('abc'
-raise ValueError("date diff to high")
+
 #compare if the review dates are within our specified bounds
 for a, b in itertools.combinations(match, 2):
     date_diff = dt.strptime(b, "%Y-%m-%d") - dt.strptime(a, "%Y-%m-%d")
