@@ -16,13 +16,11 @@ reviewed_files = [i for i in updated_files if '-review_date' in i]
 #compare if the review dates are within our specified bounds
 for outtext in reviewed_files:
     match = re.findall(r'\d{4}-\d{2}-\d{2}', outtext)
-    print(match)
-    print('abc')
-    print(outtext)
     for a, b in itertools.combinations(match, 2):
         date_diff = dt.strptime(b, "%Y-%m-%d") - dt.strptime(a, "%Y-%m-%d")
-        print(date_diff)
-        if date_diff.days > 92: raise ValueError("date diff to high",outtext)
+        if date_diff.days > 92:
+            print(date_diff,outtext)
+            raise ValueError("date diff to high")
 
 
 
