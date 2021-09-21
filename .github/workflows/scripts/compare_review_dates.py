@@ -18,7 +18,7 @@ for outtext in reviewed_files:
     match = re.findall(r'\d{4}-\d{2}-\d{2}', outtext)
     print(match)
     print('abc')
-    print(reviewed_files[i])
+    print(outtext)
     for a, b in itertools.combinations(match, 2):
         date_diff = dt.strptime(b, "%Y-%m-%d") - dt.strptime(a, "%Y-%m-%d")
         print(date_diff)
