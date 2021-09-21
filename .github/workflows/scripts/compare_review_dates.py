@@ -14,8 +14,8 @@ updated_files = txt.split('diff --git')
 reviewed_files = [i for i in updated_files if '-review_date' in i]
 
 #compare if the review dates are within our specified bounds
-for i in len(reviewed_files):
-    match = re.findall(r'\d{4}-\d{2}-\d{2}', reviewed_files[i])
+for outtext in reviewed_files:
+    match = re.findall(r'\d{4}-\d{2}-\d{2}', outtext)
     print(match)
     print('abc')
     print(reviewed_files[i])
