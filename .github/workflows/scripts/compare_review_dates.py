@@ -21,14 +21,3 @@ for outtext in reviewed_files:
         if date_diff.days > 92:
             print(date_diff,outtext)
             raise ValueError("date diff to high")
-
-
-
-'''print(os.getenv('GITHUB_OLD_DATE'),"old date")
-print(os.getenv('GITHUB_NEW_DATE'), "new date")
-
-if (os.environ['GITHUB_NEW_DATE'] != ''):
-    date_diff = dt.strptime(os.environ['GITHUB_NEW_DATE'], "%Y-%m-%d") - dt.strptime(os.environ['GITHUB_OLD_DATE'], "%Y-%m-%d")
-    print(date_diff)
-    if date_diff.days > 92: raise ValueError("date diff to high")
-'''
