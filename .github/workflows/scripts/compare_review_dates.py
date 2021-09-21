@@ -22,7 +22,7 @@ for outtext in reviewed_files:
     for a, b in itertools.combinations(match, 2):
         date_diff = dt.strptime(b, "%Y-%m-%d") - dt.strptime(a, "%Y-%m-%d")
         print(date_diff)
-        if date_diff.days > 92: raise ValueError("date diff to high")
+        if date_diff.days > 92: raise ValueError("date diff to high",outtext)
 
 
 
