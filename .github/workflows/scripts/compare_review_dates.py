@@ -20,5 +20,6 @@ for outtext in reviewed_files:
     for a, b in itertools.combinations(match, 2):
         date_diff = dt.strptime(b, "%Y-%m-%d") - dt.strptime(a, "%Y-%m-%d")
         if date_diff.days > 92:
+            print(filename)
             error_statement = "Date difference too high: " + str(date_diff.days) + " in file: " + filename + "Needs to be under X months/ X days" + " Dates: "
             raise ValueError("Date diff too high", error_statement,match)
