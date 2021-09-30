@@ -17,7 +17,7 @@ reviewed_files = [i for i in updated_files if '-review_date' in i]
 for outtext in reviewed_files:
     match = re.findall(r'\d{4}-\d{2}-\d{2}', outtext)
     filename = re.findall(r'(?<=- a\/)(.*)(?!.yml)',outtext)
-    current_date = dt.utcnow()
+    current_date = dt.utcnow().strftime("%Y-%m-%d")
     for a, b in itertools.combinations(match, 2):
         date_diff = dt.strptime(b, "%Y-%m-%d") - dt.strptime(current_date,'%Y-%m-%d')
         if date_diff.days > 92:
