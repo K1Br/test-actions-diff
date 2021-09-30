@@ -13,16 +13,9 @@ jobs:
       - name: changed-files
         id: changes
         # Set outputs using the command.
-        env:
-        # testing multiple lines
-          c1: ${{ github.event.pull_request.base.sha }}
-          c2: ${{ github.sha }}
         run: |
-          git diff --diff-filter=ACMRT ${{env.c1}} ${{env.c2}} -U0 > git_diff.csv
-          cat git_diff.csv | grep 'review_date:'| cut -d\  -f2 > date_diff.csv
-          cat git_diff.csv date_diff.csv
-          echo "GITHUB_OLD_DATE=$(echo $(head -1 date_diff.csv))" >> $GITHUB_ENV
-          echo "GITHUB_NEW_DATE=$(echo $(tail -1 date_diff.csv))" >> $GITHUB_ENV
+          git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} \
+              ${{ github.sha }} -U0 >> gitdiff_dates.csv
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -30,9 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          python -m pip install pandas
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: test dates
-        env:
-          GITHUB_OLD_DATE: ${{ env.GITHUB_OLD_DATE }}
-          GITHUB_NEW_DATE: ${{ env.GITHUB_NEW_DATE }}
         run: python ./.github/workflows/scripts/compare_review_dates.py
