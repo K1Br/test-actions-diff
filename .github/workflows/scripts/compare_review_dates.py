@@ -1,4 +1,4 @@
-from datetime import datetime as dt
+from datetime import datetime as dt, date
 from pathlib import Path
 import pandas as pd
 import re
@@ -18,7 +18,7 @@ for outtext in reviewed_files:
     match = re.findall(r'\d{4}-\d{2}-\d{2}', outtext)
     filename= re.findall(r'(?<=- a\/)(.*)(?!.yml)',outtext)
     for a, b in itertools.combinations(match, 2):
-        date_diff = dt.strptime(b, "%Y-%m-%d") - dt.utcnow().strptime(('%Y-%m-%d')
+        date_diff = dt.strptime(b, "%Y-%m-%d") - date.today().isoformat()
         if date_diff.days > 92:
             error_statement = "Date difference of " + str(date_diff.days) + " days is too high in " + filename[0] + ". Review date needs to be under 3 months/ 92 days." + " Previous review date: " +match[0] +". Requested updated review date: "+ match[1]
             raise ValueError(error_statement)
